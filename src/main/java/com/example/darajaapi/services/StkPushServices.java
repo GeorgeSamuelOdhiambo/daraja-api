@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,11 +23,12 @@ public class StkPushServices {
     @Value("${DEV_CONSUMER_SECRET}")
             private String CONSUMER_SECRET;
     Logger logger = LoggerFactory.getLogger(StkPushServices.class);
-    public Response stkToken(String req) throws IOException {
+
+    public ResponseBody stkToken(String req) throws IOException {
 
             Gson gson = new Gson();
             StkPayload result = gson.fromJson(req, StkPayload.class);
-//            String encodedString = Base64.getEncoder().encodeToString((CONSUMER_KEY+":"+CONSUMER_SECRET).getBytes());
+            String encodedString = Base64.getEncoder().encodeToString((CONSUMER_KEY+":"+CONSUMER_SECRET).getBytes());
         OkHttpClient client = new OkHttpClient().newBuilder().build();
         Request request = new Request.Builder()
                 .url("https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials")
@@ -35,6 +37,6 @@ public class StkPushServices {
                 .build();
         Response response = client.newCall(request).execute();
             logger.info(String.valueOf(response));
-        return response;
+        return response.body();
     }
 }

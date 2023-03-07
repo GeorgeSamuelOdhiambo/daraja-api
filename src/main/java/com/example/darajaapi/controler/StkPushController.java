@@ -1,7 +1,7 @@
 package com.example.darajaapi.controler;
 
 import com.example.darajaapi.services.StkPushServices;
-import okhttp3.Response;
+import okhttp3.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +17,7 @@ public class StkPushController {
     @Autowired
     StkPushServices stkPushServices;
     @PostMapping("/stk")
-    public Response stkPush(@RequestBody String req) throws IOException {
+    public ResponseBody stkPush(@RequestBody String req) throws IOException {
         return stkPushServices.stkToken(req);
     }
 }
